@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Complejidad y Optimización \\
+Problema del Relleno Sanitario}
+\author{Carlos Andrés Aucaruri Correa}
+\date{Febrero 16 2022}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\tableofcontents
+
+\pagebreak
+
+\section{Modelo}
+
+\subsection{Parámetros}
+\begin{itemize}
+    \item $m$: representa el número de ciudades
+    \item $n$: representa el tamaño de la región cuadrada tal que $n \geq 0$
+    \item $Ciudad_ix$: representa la coordenada en $x$ ($0 \leq x \leq n$) de cada ciudad $i$ ($\forall i \in \{1,...,m\}$).
+    \item $Ciudad_iy$: representa la coordenada en $y$ ($0 \leq y \leq n$) de cada ciudad $i$ ($\forall i \in \{1,...,m\}$).
+\end{itemize}
+
+\subsection{Variables}
+\begin{itemize}
+    \item $Relleno_x$: representa la coordenada en $x$ del relleno sanitario ($0 \leq x \leq n$).
+    \item $Relleno_y$: representa la coordenada en $y$ del relleno sanitario ($0 \leq y \leq n$).
+    \item $Distancia$: representa la distancia Manhattan del relleno sanitario a la ciudad más cercana ($0 \leq Distancia \leq n*2$).
+    \item $CiudadCercana_x$: representa la coordenada en $x$ de la ciudad más cercana ($0 \leq x \leq n$).
+    \item $CiudadCercana_y$: representa la coordenada en $y$ de la ciudad más cercana ($0 \leq y \leq n$).
+\end{itemize}
+
+\subsection{Restricciones}
+\begin{itemize}
+    \item El relleno debe encontrar la distancia más cercana entre todas las ciudades:
+    $Distancia = \min( |Relleno_x - Ciudad_ix| + |Relleno_y - Ciudad_iy|, \{ \forall i \in \{1,...,m\} \})$
+    \item La ciudad más cercana será la que coincida con la distancia encontrada
+\end{itemize}
+
+\subsection{Función Objetivo}
+Maximice: $|Relleno_x - CiudadCercana_x| + |Relleno_y - CiudadCercana_y|$
+
+\end{document}
