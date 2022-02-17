@@ -11,6 +11,8 @@ var 0..n: relleno_y;
 var 0..n+n: distancia;
 var REGION: ciudad_cercana_x;
 var REGION: ciudad_cercana_y;
+%array[1..2] of var int: relleno;
+%array[1..2] of var int: ciudad_cercana;
 
 % Restricciones:
 constraint distancia = min(i in NCIUDADES)(
@@ -21,9 +23,12 @@ constraint forall(i in NCIUDADES)(
   then ciudad_cercana_x = ciudades[i,1] /\ ciudad_cercana_y = ciudades[i,2]
   else true endif
 );
-/*constraint forall(i in 1..m)(
-  if relleno_x == ciudad_cercana_x /\ relleno_y == ciudad_cercana_y then false else true endif
-);*/
+%constraint relleno[1] = relleno_x;
+%constraint relleno[2] = relleno_y;
+%constraint ciudad_cercana[1] = ciudad_cercana_x;
+%constraint ciudad_cercana[2] = ciudad_cercana_y;
+%constraint relleno != ciudad_cercana;
+%constraint relleno_x != ciudad_cercana_x \/ relleno_y != ciudad_cercana_y;
 
 % Objetivo
 solve maximize abs(relleno_x - ciudad_cercana_x) + abs(relleno_y - ciudad_cercana_y);
