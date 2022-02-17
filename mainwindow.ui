@@ -31,12 +31,12 @@
     <rect>
      <x>20</x>
      <y>10</y>
-     <width>441</width>
+     <width>440</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Seleccione un archivo de datos para empezar. El solver utilizado es Gecode</string>
+    <string>Seleccione un archivo de datos para empezar. El solver por defecto es Gecode</string>
    </property>
   </widget>
   <widget class="QGraphicsView" name="graphicsView">
@@ -74,6 +74,31 @@
    <property name="text">
     <string/>
    </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>40</y>
+     <width>120</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>gecode</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>chuffed</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>coin-bc</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>

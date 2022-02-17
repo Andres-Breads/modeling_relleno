@@ -15,7 +15,7 @@ import time
 class Ui_Dialog(object):
     def __init__(self, parent=None):
         self.mzn_model = Model('./solver_relleno_sanitario.mzn')
-        self.gecode = Solver.lookup("gecode")
+        self.solver = Solver.lookup("gecode")
     
     def setupScene(self):
         self.scene = QtWidgets.QGraphicsScene()
@@ -76,7 +76,7 @@ class Ui_Dialog(object):
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName(None, "QFileDialog.getOpenFileName()", "","Dzn Files (*.dzn)", options=options)
         if fileName:
             #self.mzn_model.add_file(fileName, True)
-            self.mzn_instance = Instance(self.gecode, self.mzn_model)
+            self.mzn_instance = Instance(self.solver, self.mzn_model)
             self.mzn_instance.add_file(fileName, True)
             self.drawPlane()
             self.labelData.setText('Resolviendo el modelo...')
@@ -88,6 +88,9 @@ class Ui_Dialog(object):
                 self.drawSolution()
             else:
                 self.labelData.setText(f"No hay solución para el modelo. Tiempo de ejecución: {duration}")
+    
+    def selectSolver(self):
+        self.solver = Solver.lookup(self.comboBox.itemText(self.comboBox.currentIndex()))
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -95,8 +98,16 @@ class Ui_Dialog(object):
         self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setGeometry(QtCore.QRect(20, 40, 130, 25))
         self.pushButton.setObjectName("pushButton")
+        self.comboBox = QtWidgets.QComboBox(Dialog)
+        self.comboBox.setGeometry(QtCore.QRect(190, 40, 120, 25))
+        self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("gecode")
+        self.comboBox.addItem("chuffed")
+        self.comboBox.addItem("coin-bc")
+        # self.comboBox.addItem("findmus")
+        # self.comboBox.addItem("globalizer")
         self.labelMessage = QtWidgets.QLabel(Dialog)
-        self.labelMessage.setGeometry(QtCore.QRect(20, 10, 220, 20))
+        self.labelMessage.setGeometry(QtCore.QRect(20, 10, 440, 20))
         self.labelMessage.setObjectName("labelMessage")
         self.graphicsView = QtWidgets.QGraphicsView(Dialog)
         self.graphicsView.setGeometry(QtCore.QRect(20, 170, 600, 290))
@@ -110,6 +121,7 @@ class Ui_Dialog(object):
 
         self.retranslateUi(Dialog)
         self.pushButton.clicked.connect(self.buttonFileClicked)
+        self.comboBox.currentIndexChanged.connect(self.selectSolver)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
         self.setupScene()
 
@@ -117,7 +129,7 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Relleno Sanitario"))
         self.pushButton.setText(_translate("Dialog", "Seleccionar archivo dzn"))
-        self.labelMessage.setText(_translate("Dialog", "Seleccione un archivo de datos para empezar"))
+        self.labelMessage.setText(_translate("Dialog", "Seleccione un archivo de datos para empezar. El solver por defecto es Gecode"))
         self.labelData.setText(_translate("Dialog", "Esperando datos..."))
 
 
