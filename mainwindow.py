@@ -87,7 +87,7 @@ class Ui_Dialog(object):
                 self.labelData.setText(f"Modelo Resuleto! Duración: {duration} segundos")
                 self.drawSolution()
             else:
-                self.labelData.setText('No hay solución para el modelo, seleccione otros datos')
+                self.labelData.setText(f"No hay solución para el modelo. Tiempo de ejecución: {duration}")
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
