@@ -15,7 +15,7 @@ import time
 
 class Ui_Dialog(object):
     def __init__(self, parent=None):
-        self.mzn_model = Model('./solver_relleno_sanitario.mzn')
+        self.mzn_model = Model('./Relleno.mzn')
         self.solver = Solver.lookup("gecode")
     
     def setupScene(self):
@@ -52,8 +52,8 @@ class Ui_Dialog(object):
         self.relleno_x = self.result["relleno_x"]
         self.relleno_y = self.result["relleno_y"]
         self.distancia = self.result["distancia"]
-        self.ciudad_cercana_x = self.result["ciudad_cercana_x"]
-        self.ciudad_cercana_y = self.result["ciudad_cercana_y"]
+        self.ciudad_cercana_x = self.result["ciudad_cercana"][0]
+        self.ciudad_cercana_y = self.result["ciudad_cercana"][1]
 
         result_text = f"Coordenadas del relleno sanitario: {{{self.relleno_x}, {self.relleno_y}}}\n"
         result_text += f"Distancia: {self.distancia}\n"

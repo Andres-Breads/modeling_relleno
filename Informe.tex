@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+\usepackage{listings}
 
 \title{Complejidad y Optimización \\
 Problema del Relleno Sanitario}
@@ -17,6 +18,14 @@ Problema del Relleno Sanitario}
 \pagebreak
 
 \section{Modelo}
+La región EcoReg tiene un problema serio de depósito de basuras, y ha decidido construir un nuevo relleno dentro de sus fronteras. Como es natural,
+cada ciudad dentro de la región está en alerta y presionando para que el sitio no quede cerca de su ciudad. Por tal razón, los administradores de la región
+quieren encontrar un sitio que quede lo más lejos posible de la ciudad más cercana. Los administradores
+han decidido medir la distancia entre dos ciudades con la métrica Manhattan la cual define la distancia
+entre dos puntos como la distancia en el eje X más la distancia en el eje Y.
+
+La región se representa como un cuadrado perfecto de N km por N km. Identificamos la esquina al suroccidente de la región con la posición (0,0).
+En este sistema, las ciudades están situadas sobre las intersecciones.
 
 \subsection{Parámetros}
 \begin{itemize}
@@ -38,11 +47,19 @@ Problema del Relleno Sanitario}
 \subsection{Restricciones}
 \begin{itemize}
     \item El relleno debe encontrar la distancia más cercana entre todas las ciudades:
-    $Distancia = \min( |Relleno_x - Ciudad_ix| + |Relleno_y - Ciudad_iy|, \{ \forall i \in \{1,...,m\} \})$
+    $Distancia = \min( |Ciudad_ix - Relleno_x| + |Ciudad_iy - Relleno_y|, \{ \forall i \in \{1,...,m\} \})$
     \item La ciudad más cercana será la que coincida con la distancia encontrada
+    Para minizinc tendremos las siguientes Restricciones usando la restriccion global "table.mzn":
+    \begin{lstlisting}
+    constraint table(ciudad_cercana, ciudades);
+    constraint abs(ciudad_cercana[1] - relleno_x) +
+        abs(ciudad_cercana[2] - relleno_y) == distancia;
+    \end{lstlisting}
 \end{itemize}
 
 \subsection{Función Objetivo}
-Maximice: $|Relleno_x - CiudadCercana_x| + |Relleno_y - CiudadCercana_y|$
+Maximice: $Distancia$
+
+\section{Detalles importantes de implementación:}
 
 \end{document}
