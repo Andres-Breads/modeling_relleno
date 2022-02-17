@@ -70,3 +70,6 @@ Thumbs.db
 *.out
 *.synctex.gz
 *.fdb_latexmk
+
+build/
+*.spec

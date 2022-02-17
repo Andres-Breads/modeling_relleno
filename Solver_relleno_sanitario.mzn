@@ -16,7 +16,7 @@ var REGION: ciudad_cercana_y;
 
 % Restricciones:
 constraint distancia = min(i in NCIUDADES)(
-  abs(relleno_x - ciudades[i,1]) + abs(relleno_y - ciudades[i,2])
+  abs(ciudades[i,1] - relleno_x) + abs(ciudades[i,2] - relleno_y)
 );
 constraint forall(i in NCIUDADES)(
   if distancia = abs(relleno_x - ciudades[i,1]) + abs(relleno_y - ciudades[i,2])

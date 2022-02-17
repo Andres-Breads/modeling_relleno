@@ -6,7 +6,9 @@ def generate_dzn_file():
         now = dt.now()
         now = now.strftime("%Y_%m_%d_%H_%M_%S")
         filename = "dat_" + now
-        max_region = 100
+        list_of_max_regions = [10, 20, 30, 40, 50]
+        pos = random.randint(0, 4)
+        max_region = list_of_max_regions[pos]
         region = random.randint(1, max_region)
         max_num_cities = pow(region+1, 2) - 1
         cities = random.randint(1, max_num_cities)

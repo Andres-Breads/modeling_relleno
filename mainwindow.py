@@ -73,62 +73,72 @@ class Ui_Dialog(object):
 
     def buttonFileClicked(self):
         options = QtWidgets.QFileDialog.Options()
-        fileName, _ = QtWidgets.QFileDialog.getOpenFileName(None, "QFileDialog.getOpenFileName()", "","Dzn Files (*.dzn)", options=options)
-        if fileName:
-            #self.mzn_model.add_file(fileName, True)
+        filename, _ = QtWidgets.QFileDialog.getOpenFileName(None, "QFileDialog.getOpenFileName()", "","Dzn Files (*.dzn)", options=options)
+        if filename:
             self.mzn_instance = Instance(self.solver, self.mzn_model)
-            self.mzn_instance.add_file(fileName, True)
+            self.mzn_instance.add_file(filename, True)
+            self.labelFile.setText(filename)
             self.drawPlane()
-            self.labelData.setText('Resolviendo el modelo...')
-            start_time = time.time()
-            self.result = self.mzn_instance.solve()
-            duration = time.time() - start_time
-            if (self.result):
-                self.labelData.setText(f"Modelo Resuleto! Duración: {duration} segundos")
-                self.drawSolution()
-            else:
-                self.labelData.setText(f"No hay solución para el modelo. Tiempo de ejecución: {duration}")
-    
+
     def selectSolver(self):
         self.solver = Solver.lookup(self.comboBox.itemText(self.comboBox.currentIndex()))
+
+    def buttonSolverClicked(self):
+        self.labelData.setText('Resolviendo el modelo...')
+        start_time = time.time()
+        self.result = self.mzn_instance.solve()
+        duration = time.time() - start_time
+        if (self.result):
+            self.labelData.setText(f"Modelo Resuleto! Duración: {duration} segundos")
+            self.drawSolution()
+        else:
+            self.labelData.setText(f"No hay solución para el modelo. Tiempo de ejecución: {duration}")
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(640, 480)
-        self.pushButton = QtWidgets.QPushButton(Dialog)
-        self.pushButton.setGeometry(QtCore.QRect(20, 40, 130, 25))
-        self.pushButton.setObjectName("pushButton")
+        self.labelMessage = QtWidgets.QLabel(Dialog)
+        self.labelMessage.setGeometry(QtCore.QRect(20, 0, 440, 16))
+        self.labelMessage.setObjectName("labelMessage")
+        self.pushButtonFile = QtWidgets.QPushButton(Dialog)
+        self.pushButtonFile.setGeometry(QtCore.QRect(20, 20, 130, 25))
+        self.pushButtonFile.setObjectName("pushButtonFile")
         self.comboBox = QtWidgets.QComboBox(Dialog)
-        self.comboBox.setGeometry(QtCore.QRect(190, 40, 120, 25))
+        self.comboBox.setGeometry(QtCore.QRect(190, 20, 120, 25))
         self.comboBox.setObjectName("comboBox")
         self.comboBox.addItem("gecode")
         self.comboBox.addItem("chuffed")
         self.comboBox.addItem("coin-bc")
         # self.comboBox.addItem("findmus")
         # self.comboBox.addItem("globalizer")
-        self.labelMessage = QtWidgets.QLabel(Dialog)
-        self.labelMessage.setGeometry(QtCore.QRect(20, 10, 440, 20))
-        self.labelMessage.setObjectName("labelMessage")
-        self.graphicsView = QtWidgets.QGraphicsView(Dialog)
-        self.graphicsView.setGeometry(QtCore.QRect(20, 170, 600, 290))
-        self.graphicsView.setObjectName("graphicsView")
+        self.pushButtonSolver = QtWidgets.QPushButton(Dialog)
+        self.pushButtonSolver.setGeometry(QtCore.QRect(330, 20, 75, 25))
+        self.pushButtonSolver.setObjectName("pushButtonSolver")
+        self.labelFile = QtWidgets.QLabel(Dialog)
+        self.labelFile.setGeometry(QtCore.QRect(20, 50, 440, 16))
+        self.labelFile.setObjectName("labelFile")
         self.labelData = QtWidgets.QLabel(Dialog)
         self.labelData.setGeometry(QtCore.QRect(20, 70, 320, 16))
         self.labelData.setObjectName("labelData")
         self.labelResult = QtWidgets.QLabel(Dialog)
         self.labelResult.setGeometry(QtCore.QRect(20, 100, 350, 60))
         self.labelResult.setObjectName("labelResult")
+        self.graphicsView = QtWidgets.QGraphicsView(Dialog)
+        self.graphicsView.setGeometry(QtCore.QRect(20, 170, 600, 290))
+        self.graphicsView.setObjectName("graphicsView")
 
         self.retranslateUi(Dialog)
-        self.pushButton.clicked.connect(self.buttonFileClicked)
+        self.pushButtonFile.clicked.connect(self.buttonFileClicked)
         self.comboBox.currentIndexChanged.connect(self.selectSolver)
+        self.pushButtonSolver.clicked.connect(self.buttonSolverClicked)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
         self.setupScene()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Relleno Sanitario"))
-        self.pushButton.setText(_translate("Dialog", "Seleccionar archivo dzn"))
+        self.pushButtonFile.setText(_translate("Dialog", "Seleccionar archivo dzn"))
+        self.pushButtonSolver.setText(_translate("Dialog", "Resolver"))
         self.labelMessage.setText(_translate("Dialog", "Seleccione un archivo de datos para empezar. El solver por defecto es Gecode"))
         self.labelData.setText(_translate("Dialog", "Esperando datos..."))
 
