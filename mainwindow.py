@@ -17,6 +17,7 @@ class Ui_Dialog(object):
     def __init__(self, parent=None):
         self.mzn_model = Model('./Relleno.mzn')
         self.solver = Solver.lookup("gecode")
+        self.mzn_instance = None
     
     def setupScene(self):
         self.scene = QtWidgets.QGraphicsScene()
@@ -85,6 +86,8 @@ class Ui_Dialog(object):
         self.solver = Solver.lookup(self.comboBox.itemText(self.comboBox.currentIndex()))
 
     def buttonSolverClicked(self):
+        if (self.mzn_instance is None):
+            return
         self.labelData.setText('Resolviendo el modelo...')
         start_time = time.time()
         self.result = self.mzn_instance.solve()
